@@ -5,7 +5,7 @@ import lombok.*;
 import java.util.*;
 
 @Entity
-@Table(name = "clients")
+@Table(name = "client")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,7 +17,7 @@ public class Client {
     @Column(nullable = false)
     private String name;
 
-    private String contactInfo;
+    private String contact_info;
 
     @OneToMany(mappedBy = "sender")
     private List<Order> sentOrders = new ArrayList<>();

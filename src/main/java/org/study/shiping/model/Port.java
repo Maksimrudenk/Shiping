@@ -22,5 +22,17 @@ public class Port {
 
     private Integer capacity;
 
-    private String contactInfo;
+    private String contact;
+
+    @Override
+    public String toString() {
+        return "Port{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", city='" + city + '\'' +
+                ", country='" + country + '\'' +
+                ", capacity=" + capacity +
+                ", contact='" + contact + '\'' +
+                '}';
+    }
 }

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Route")
+@Table(name = "Rout")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,15 +18,15 @@ public class Route {
     private Double distance;
 
     @ManyToOne
-    @JoinColumn(name = "ship_id", nullable = false)
+    @JoinColumn(name = "ship", nullable = false)
     private Ship ship;
 
     @ManyToOne
-    @JoinColumn(name = "departure_port_id", nullable = false)
+    @JoinColumn(name = "departure", nullable = false)
     private Port departurePoint;
 
     @ManyToOne
-    @JoinColumn(name = "destination_port_id", nullable = false)
+    @JoinColumn(name = "destination", nullable = false)
     private Port destinationPoint;
 
     @OneToMany(mappedBy = "route")

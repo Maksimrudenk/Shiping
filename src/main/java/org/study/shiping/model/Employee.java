@@ -21,6 +21,6 @@ public class Employee {
     private String occupation;
 
     @ManyToOne
-    @JoinColumn(name = "ship_id", nullable = false)
+    @JoinColumn(name = "ship", nullable = false)
     private Ship ship;
 }

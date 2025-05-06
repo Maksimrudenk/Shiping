@@ -20,7 +20,7 @@ public class Cargo {
     private Double weight;
 
     @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
+    @JoinColumn(name = "\"order\"", nullable = false)
     private Order order;
 }
 
