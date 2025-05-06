@@ -17,7 +17,7 @@ public class TestController {
     @Autowired
     private PortRepository portRepository;
 
-    @GetMapping("/ports")
+    @GetMapping("/test")
     public List<Port> getPorts(){
         List<Port> ports = portRepository.findAll();
         System.out.println("Ports:");

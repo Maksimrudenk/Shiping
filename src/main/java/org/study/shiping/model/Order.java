@@ -25,7 +25,7 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "\"destination\"", nullable = false)
-    private Port destinationPoint;
+    private Port destination;
 
     @ManyToOne
     @JoinColumn(name = "\"rout\"", nullable = false)

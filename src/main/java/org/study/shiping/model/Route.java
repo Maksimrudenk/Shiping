@@ -23,11 +23,11 @@ public class Route {
 
     @ManyToOne
     @JoinColumn(name = "departure", nullable = false)
-    private Port departurePoint;
+    private Port departure;
 
     @ManyToOne
     @JoinColumn(name = "destination", nullable = false)
-    private Port destinationPoint;
+    private Port destination;
 
     @OneToMany(mappedBy = "route")
     private List<Order> orders = new ArrayList<>();
