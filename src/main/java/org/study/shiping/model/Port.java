@@ -1,21 +1,26 @@
 package org.study.shiping.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
 @Table(name = "Port")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Port {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @JsonProperty
     private Long id;
 
     @Column(nullable = false)
+//    @JsonProperty
     private String name;
 
+//    @JsonProperty
     private String city;
 
     private String country;
