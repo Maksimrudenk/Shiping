@@ -9,6 +9,7 @@ import org.study.shiping.model.*;
 import org.study.shiping.repository.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,6 +29,11 @@ public class OrderService {
         this.cargoRepository = cargoRepository;
     }
 
+    public OrderDto getOrderById(long id) {
+        return map(orderRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Order not found")));
+    }
+
     public List<OrderDto> getOrdersBySender(String senderName) {
         return orderRepository.findBySender_Name(senderName)
                 .stream().map(this::map).collect(Collectors.toList());
@@ -37,6 +43,21 @@ public class OrderService {
         return orderRepository.findByReceiver_Name(receiverName)
                 .stream().map(this::map).collect(Collectors.toList());
     }
+
+    @Transactional
+    public void updateOrder(long id, OrderDto dto) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Order not found"));
+
+        Port destination = portRepository.findById(dto.destinationPortId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid destination port ID"));
+
+        Route route = routeService.getRoute(dto.departurePortId, dto.destinationPortId);
+
+        order.setDestination(destination);
+        order.setRoute(route);
+    }
+
 
     @Transactional
     public Long createOrderWithCargo(CreateOrderRequest request) {

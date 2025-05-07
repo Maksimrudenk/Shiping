@@ -38,10 +38,8 @@ public class GetController {
 
     @GetMapping("/user")
     public ResponseEntity<?> getUserByName(@RequestParam String username) {
-        Client client = cr.findByName(username);
-        if (client == null) {
-            return ResponseEntity.notFound().build();
-        }
+        Client client = cr.findByName(username)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid sender name"));
         return ResponseEntity.ok(client.getId());
     }
 

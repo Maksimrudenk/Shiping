@@ -7,6 +7,8 @@ import org.study.shiping.dto.OrderDto;
 import org.study.shiping.service.OrderService;
 
 import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/orders")
@@ -36,5 +38,21 @@ public class OrderController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @GetMapping("/{id}")
+    public OrderDto getOrderById(@PathVariable Long id) {
+        return orderService.getOrderById(id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateOrder(@PathVariable Long id, @RequestBody OrderDto updatedOrder) {
+        try {
+            orderService.updateOrder(id, updatedOrder);
+            return ResponseEntity.ok("Order updated");
+        } catch (IllegalArgumentException | NoSuchElementException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 }
 

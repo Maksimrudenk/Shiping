@@ -9,6 +9,12 @@
             max-height: 300px;
             overflow-y: auto;
         }
+        .order-entry {
+            cursor: pointer;
+        }
+        .order-entry:hover {
+            background-color: #f8f9fa;
+        }
     </style>
 </head>
 <body>
@@ -44,10 +50,15 @@
         .then(data => document.getElementById('receiverOrders').innerHTML = renderOrders(data));
 
     function renderOrders(orders) {
-        return orders.map(o => `<div class="mb-2 border-bottom">
-            ID: ${o.id}, Sender: ${o.senderName || '-'}, Receiver: ${o.receiverName},
-            Destination: ${o.destinationPortName}, Departure: ${o.departurePortName}
-            </div>`).join('') || 'no Orders';
+        return orders.map(o => `
+            <div class="mb-2 border-bottom p-1 order-entry" onclick="location.href='/order-details/${o.id}.html'">
+                <strong>ID:</strong> ${o.id},
+                <strong>Sender:</strong> ${o.senderName || '-'},
+                <strong>Receiver:</strong> ${o.receiverName},
+                <strong>Destination:</strong> ${o.destinationPortName},
+                <strong>Departure:</strong> ${o.departurePortName}
+            </div>
+        `).join('') || 'no Orders';
     }
 </script>
 </body>
