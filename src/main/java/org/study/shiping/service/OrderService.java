@@ -58,6 +58,9 @@ public class OrderService {
         order.setRoute(route);
     }
 
+    public void deleteOrder(long id) {
+        orderRepository.deleteById(id);
+    }
 
     @Transactional
     public Long createOrderWithCargo(CreateOrderRequest request) {

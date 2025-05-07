@@ -54,5 +54,15 @@ public class OrderController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteOrderById(@PathVariable Long id) {
+        try {
+            orderService.deleteOrder(id);
+            return ResponseEntity.ok("Order deleted");
+        } catch (IllegalArgumentException | NoSuchElementException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 }
 

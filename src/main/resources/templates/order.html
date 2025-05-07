@@ -28,19 +28,41 @@
         <button type="submit" class="btn btn-primary">Save</button>
         <a href="/dashboard" class="btn btn-secondary ms-2">Back</a>
     </form>
+
+    <!-- Display Cargoes -->
+    <h3 class="mt-4">Cargoes for this Order</h3>
+    <table class="table" id="cargoesTable">
+        <thead>
+        <tr>
+            <th>Cargo ID</th>
+            <th>Type</th>
+            <th>Weight</th>
+            <th>State</th>
+        </tr>
+        </thead>
+        <tbody id="cargoesTableBody">
+        <!-- Cargoes will be inserted here dynamically -->
+        </tbody>
+    </table>
+
+    <!-- Delete Order Button -->
+    <button id="deleteOrderButton" class="btn btn-danger mt-3">Delete Order</button>
 </div>
 
 <script>
     const orderId = window.location.pathname.split('/').pop().replace('.html', '');
 
     let ports = [];
+    let cargoes = [];
 
-    // 1. Fetch order + ports
+    // 1. Fetch order, ports and cargoes
     Promise.all([
         fetch(`/orders/${orderId}`).then(r => r.json()),
-        fetch('/ports').then(r => r.json())
-    ]).then(([order, portsData]) => {
+        fetch('/ports').then(r => r.json()),
+        fetch(`/cargos/${orderId}`).then(r => r.json())  // Fetch cargoes for the order
+    ]).then(([order, portsData, cargoesData]) => {
         ports = portsData;
+        cargoes = cargoesData;
 
         // Fill read-only fields
         document.getElementById('senderName').value = order.senderName;
@@ -54,6 +76,19 @@
         // Set selected values
         document.getElementById('departureSelect').value = order.departurePortId;
         document.getElementById('destinationSelect').value = order.destinationPortId;
+
+        // Display cargoes
+        const cargoRows = cargoes.map(cargo => {
+            return `
+                <tr>
+                    <td>${cargo.cargoId}</td>
+                    <td>${cargo.type}</td>
+                    <td>${cargo.weight}</td>
+                    <td>${cargo.state}</td>
+                </tr>
+            `;
+        }).join('');
+        document.getElementById('cargoesTableBody').innerHTML = cargoRows;
     });
 
     // 2. Save updated order
@@ -78,6 +113,24 @@
             }
         });
     });
+
+    // 3. Delete Order
+    document.getElementById('deleteOrderButton').addEventListener('click', function () {
+        if (confirm('Are you sure you want to delete this order?')) {
+            fetch(`/orders/${orderId}`, {
+                method: 'DELETE'
+            }).then(res => {
+                if (res.ok) {
+                    alert('Order deleted!');
+                    location.href = '/dashboard';
+                } else {
+                    res.text().then(text => alert('Error: ' + text));
+                }
+            });
+        }
+    });
 </script>
+
 </body>
 </html>
+
