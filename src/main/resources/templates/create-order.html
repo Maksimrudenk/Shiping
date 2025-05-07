@@ -40,7 +40,6 @@
         <button type="submit" form="orderForm" class="btn btn-primary">Send Order</button>
     </div>
 
-    <!-- Новый блок для отображения количества активных кораблей -->
     <div class="mt-4">
         <h4>Active Ships: <span id="activeShipsCount">Loading...</span></h4>
     </div>
@@ -50,7 +49,6 @@
     const username = localStorage.getItem('username');
     const userId = localStorage.getItem('userId');
 
-    // Загружаем данные о клиентах и портах
     Promise.all([
         fetch('/clients').then(r => r.json()),
         fetch('/ports').then(r => r.json())
@@ -63,18 +61,16 @@
             `<option value="${p.id}">${p.name} (${p.city})</option>`).join('');
     });
 
-    // Получаем количество активных кораблей
     fetch('/activeShips')
         .then(res => res.json())
         .then(data => {
-            document.getElementById('activeShipsCount').textContent = data;  // Отображаем количество активных кораблей
+            document.getElementById('activeShipsCount').textContent = data;
         })
         .catch(err => {
-            document.getElementById('activeShipsCount').textContent = 'Error';  // Если ошибка
+            document.getElementById('activeShipsCount').textContent = 'Error';
             console.error(err);
         });
 
-    // Добавление нового поля для груза
     document.getElementById('addCargo').addEventListener('click', () => {
         const container = document.getElementById('cargoContainer');
         const div = document.createElement('div');
@@ -87,14 +83,12 @@
         container.appendChild(div);
     });
 
-    // Удаление поля для груза
     document.getElementById('cargoContainer').addEventListener('click', e => {
         if (e.target.classList.contains('remove-cargo')) {
             e.target.closest('.cargo-entry').remove();
         }
     });
 
-    // Обработка отправки формы
     document.getElementById('orderForm').addEventListener('submit', async e => {
         e.preventDefault();
         const form = e.target;
