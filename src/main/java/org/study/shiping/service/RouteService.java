@@ -1,5 +1,7 @@
 package org.study.shiping.service;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.study.shiping.model.Port;
 import org.study.shiping.model.Route;
@@ -47,6 +49,13 @@ public class RouteService {
         }
 
         throw new IllegalStateException("No available ships for creating a new route");
+    }
+
+    @PostConstruct
+    @Transactional
+    public void cleanUp(){
+        List<Route> unusedRoutes = routeRepository.findUnusedRoutes();
+        routeRepository.deleteAll(unusedRoutes);
     }
 
 

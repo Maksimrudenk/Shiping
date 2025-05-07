@@ -10,6 +10,7 @@ import org.study.shiping.model.Client;
 import org.study.shiping.model.Port;
 import org.study.shiping.repository.ClientRepository;
 import org.study.shiping.repository.PortRepository;
+import org.study.shiping.repository.ShipRepository;
 import org.study.shiping.service.CargoService;
 
 import java.util.List;
@@ -19,11 +20,13 @@ public class GetController {
 
     private final PortRepository pr;
     private final ClientRepository cr;
+    private final ShipRepository sr;
     private final CargoService cs;
 
-    public GetController(PortRepository pr, ClientRepository cr, CargoService cs) {
+    public GetController(PortRepository pr, ClientRepository cr, ShipRepository sr, CargoService cs) {
         this.pr = pr;
         this.cr = cr;
+        this.sr = sr;
         this.cs = cs;
     }
 
@@ -40,6 +43,11 @@ public class GetController {
     @GetMapping("/cargos/{id}")
     public List<CargoDto> getCargoesByOrderId(@PathVariable Long id) {
         return cs.getAllCargosByOrder(id);
+    }
+
+    @GetMapping("/activeShips")
+    public ResponseEntity<?> getActiveShipsAmount() {
+        return ResponseEntity.ok(sr.countActiveShipsNotInRoutes());
     }
 
     @GetMapping("/user")
